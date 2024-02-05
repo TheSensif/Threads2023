@@ -2,12 +2,15 @@ package com.thesensif.threads2023;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Looper;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.button);
         TextView textView = findViewById(R.id.textView1);
+        ImageView imageView = findViewById(R.id.imageView);
 
         ExecutorService executorService = Executors.newSingleThreadExecutor();
         button.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +56,29 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
+            }
+        });
+
+        executorService.execute(new Runnable() {
+            @Override
+            public void run() {
+                String urldisplay = "https://randomfox.ca/images/122.jpg";
+                Bitmap bitmap;
+                try {
+                    InputStream in = new java.net.URL(urldisplay).openStream();
+                    bitmap = BitmapFactory.decodeStream(in);
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            imageView.setImageBitmap(bitmap);
+                        }
+                    });
+                } catch (Exception e) {
+                    Log.e("Error", e.getMessage());
+                    e.printStackTrace();
+                }
 
             }
         });
