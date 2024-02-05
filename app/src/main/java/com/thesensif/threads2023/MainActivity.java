@@ -25,6 +25,8 @@ import java.util.concurrent.Executors;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -63,7 +65,9 @@ public class MainActivity extends AppCompatActivity {
         executorService.execute(new Runnable() {
             @Override
             public void run() {
-                String urldisplay = "https://randomfox.ca/images/122.jpg";
+                Random random = new Random();
+                int rand = random.nextInt(123 - 1 + 1) + 1;
+                String urldisplay = "https://randomfox.ca/images/"+ rand + ".jpg";
                 Bitmap bitmap;
                 try {
                     InputStream in = new java.net.URL(urldisplay).openStream();
